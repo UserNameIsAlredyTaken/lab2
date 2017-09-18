@@ -1,4 +1,7 @@
 section .text
+
+global string_length
+
 string_length: 
 	xor rax, rax ;внесение в rax 0, чтобы использовать как счётчик
 	.loop:
@@ -131,6 +134,30 @@ read_word:
 	sub r8, rax ;запись в rdx длинны слова
 	mov rdx, r8
     ret
+	
+global read_string
+read_string:
+		mov r8, word_buffer ;запись адреса в r8
+.begin_spase:
+	call read_char
+	test rax, rax ;проверка на пустую строку
+	je .end_space
+	cmp rax, ' ' ;проверка на пробел
+	jle .begin_spase
+.write:
+	mov [r8], rax ; запись символа
+	inc r8 ;увеличение адреса
+	call read_char
+	cmp rax, 0xA ;проверка на перенос строки
+	jne .write
+.end_space:
+	xor r9, r9 ;запись 0 в конец строки
+	mov [r8], r9
+	mov rax, word_buffer ;запись в rax адреса буфера
+	sub r8, rax ;запись в rdx длинны слова
+	mov rdx, r8
+    ret		
+	
 
 ; rdi points to a string
 ; returns rax: number, rdx : length

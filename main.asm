@@ -1,29 +1,34 @@
-%include "colon.inc"
 %include "words.inc"
 
 section .data
 
-error_msg: db 'Не удалось найти значение по данному ключу', 10
+error_msg: db 'Sorry, but no :(', 10
 
 section .text
 
-extern read_word
 extern find_word
 extern print_string
+extern string_length
+extern read_string
 
 global _start
 
 _start:
-	call read_word
-	mov rdi, rax
-	mov rsi, link
-	call find_word
-	test rax,rax
+	.loop:
+		call read_string
+		mov rdi, rax
+		mov rsi, link
+		call find_word
+		test rax,rax
 	
-	je .error
+		je .error
 	
-	mov rdi, rax
-	call print_string
+		mov rdi, rax
+		add rdi, 8
+		call string_length
+		add rdi, rax
+		inc rdi
+		call print_string	
 	
 .end:
 	mov rax, 60

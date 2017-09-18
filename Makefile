@@ -1,4 +1,4 @@
-lab2: lib.o dict.o main.o
+lab2: clean lib.o dict.o main.o
 	ld -o program main.o dict.o lib.o
 
 main.o: main.asm colon.inc words.inc

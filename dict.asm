@@ -1,4 +1,4 @@
-section .test
+section .text
 extern string_equals
 ;rdi-указатель на искомыый ключ
 ;rsi-указатель на последнее слово в словаре
@@ -9,7 +9,7 @@ find_word:
 		push rdi
 		add rsi, 8
 		call string_equals
-		push rdi
+		pop rdi
 		pop rsi
 		
 		test rax, rax
